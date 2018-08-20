@@ -45,13 +45,6 @@ inputadot = (dot) => {
   }
 }
 
- const DidOperation = {
-  '+' : (prevＶalue, nextvalue) => prevValue + nextvalue,
-  '-' : (prevValue, nextvalue) => prevValue - nextvalue,
-  '*' : (prevValue, nextvalue) => prevValue * nextvalue,
-  '/' : (prevValue, nextvalue) => prevValue / nextvalue,
-  '=' : (prevValue, nextvalue) => nextvalue
-}
 clearAll = () => {
   const {displayValue} = this.state;
   this.setState ({
@@ -67,7 +60,25 @@ signtoggle = () => {
    })
 }
 inputOprator = (operatorSign) =>{
-  const {operator, waitingforOperand,value} = this.state;
+  const DidOperation = (caculatorsign, prevValue, nextvalue) => {
+
+    if(caculatorsign =='+'){
+      (prevＶalue, nextvalue) => prevValue + nextvalue;
+    }
+    else if (caculatorsign =='-') {
+      (prevValue, nextvalue) => prevValue - nextvalue;
+    }
+    else if (caculatorsign =='*') {
+      (prevValue, nextvalue) => prevValue * nextvalue;
+    }
+    else if (caculatorsign =='/') {
+      (prevValue, nextvalue) => prevValue / nextvalue;
+    }
+    else if (caculatorsign == '=') {
+      (prevValue, nextvalue) => nextvalue;
+    }
+  }
+  const {operator, waitingforOperand,value,displayValue} = this.state;
   const inputValue = parseFloat(displayValue);
   if (value == null){
     this.setState({
@@ -75,8 +86,8 @@ inputOprator = (operatorSign) =>{
     })
   }else if(operator){
     const currentvalue = value
-    const newValue = DidOperation[operator](currentvalue, inputValue)
-    this.setstate({
+    const newValue = DidOperation(operator,currentvalue,inputValue)
+    this.setState({
       value: newValue,
       displayValue: String(newValue)
     })
@@ -84,8 +95,7 @@ inputOprator = (operatorSign) =>{
   this.setState ({
      operator: operatorSign,
      waitingforOperand: true,
-
-  })
+   })
 }
 
   render() {
@@ -112,7 +122,7 @@ inputOprator = (operatorSign) =>{
           <button className="button" onClick = {() => this.inputOprator('-')}>-</button>
           <button className="button" onClick = {() => this.inputOprator('*')}>x</button>
           <button className="button" onClick = {() => this.inputOprator('/')}>/</button>
-          <button className="button" onClick = {() => this.inputOprator('/')}>=</button>
+          <button className="button" onClick = {() => this.inputOprator('=')}>=</button>
 
           </div>
        </div>
