@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
+const DidOperation = {
+'+' : (prevValue, nextvalue) => prevValue + nextvalue,
+'-' : (prevValue, nextvalue) => prevValue - nextvalue,
+'*' : (prevValue, nextvalue) => prevValue * nextvalue,
+'/' : (prevValue, nextvalue) => prevValue / nextvalue,
+'=' : (prevValue, nextvalue) => nextvalue
+}
 class Caculator extends Component {
 constructor() {
   super();
@@ -13,6 +21,10 @@ constructor() {
   };
   this.inputdigit = this.inputdigit.bind(this);
 }
+
+
+
+
 
 inputdigit = (digit) => {
   const {displayValue, waitingforOperand} = this.state
@@ -59,25 +71,11 @@ signtoggle = () => {
      displayValue: String(newValue)
    })
 }
-inputOprator = (operatorSign) =>{
-  const DidOperation = (caculatorsign, prevValue, nextvalue) => {
 
-    if(caculatorsign =='+'){
-      (prevＶalue, nextvalue) => prevValue + nextvalue;
-    }
-    else if (caculatorsign =='-') {
-      (prevValue, nextvalue) => prevValue - nextvalue;
-    }
-    else if (caculatorsign =='*') {
-      (prevValue, nextvalue) => prevValue * nextvalue;
-    }
-    else if (caculatorsign =='/') {
-      (prevValue, nextvalue) => prevValue / nextvalue;
-    }
-    else if (caculatorsign == '=') {
-      (prevValue, nextvalue) => nextvalue;
-    }
-  }
+inputOprator = (operatorSign) =>{
+let returnvalue =0
+
+
   const {operator, waitingforOperand,value,displayValue} = this.state;
   const inputValue = parseFloat(displayValue);
   if (value == null){
@@ -85,8 +83,9 @@ inputOprator = (operatorSign) =>{
       value: inputValue,
     })
   }else if(operator){
-    const currentvalue = value
-    const newValue = DidOperation(operator,currentvalue,inputValue)
+    const currentvalue = parseFloat(value)
+    const newValue = DidOperation[operator](currentvalue,inputValue)
+
     this.setState({
       value: newValue,
       displayValue: String(newValue)
@@ -116,6 +115,7 @@ inputOprator = (operatorSign) =>{
           <button className="button" onClick = {() => this.inputdigit(9)}>9</button>
           <button className="button" onClick = {() => this.inputadot()}>.</button>
           <button className="button" onClick = {() => this.signtoggle()}>+/-</button>
+
           <div className="operatorpannel">
             <button className="button" onClick = {() => this.clearAll()}>AC</button>
           <button className="button" onClick = {() => this.inputOprator('+')}>+</button>
